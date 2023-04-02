@@ -1,0 +1,10 @@
+{
+  "labels":[
+    "Effective Date"
+  ],
+  "spans_key":"Hovno",
+  "threshold":0.5,
+  "max_positive":null,
+  "negative_weight":null,
+  "allow_overlap":true
+}
