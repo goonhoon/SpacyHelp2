@@ -1,8 +1,7 @@
 import spacy
-from spacy.tokens import SpanGroup
 from spacy.tokens import DocBin
 
-nlp = spacy.load("en_core_web_sm")
+nlp = spacy.load("en_core_web_lg")
 ruler = nlp.add_pipe("span_ruler", name="ruler")
 
 patterns = [{"label": "Effective Date", "pattern": [
@@ -18,19 +17,15 @@ patterns = [{"label": "Effective Date", "pattern": [
 
 ruler.add_patterns(patterns)
 
-
-for i in range(1, 450):
+# range 100-510 for the train folder, range 0-100 for the dev folder (split however you want).
+for i in range(100, 510):
 
     text_open = open(f"inputfiles/ ({i}).txt", "r", encoding='utf8')
     text = text_open.read()
     doc = nlp(text)
 
-    doc.spans["Hovno"] = SpanGroup(doc)
     db = DocBin()
     for span in doc.spans["ruler"]:
-        doc.spans["Hovno"].append(span)
-        for span in doc.spans["Hovno"]:
-            doc.set_ents(entities=[span], default="unmodified")
             print(span.text, span.label_)
 
     text_open.close()
@@ -38,7 +33,5 @@ for i in range(1, 450):
 
     db.add(doc)
     db.to_disk(f"./train/{i}.spacy")
-
-
 
 
